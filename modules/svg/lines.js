@@ -51,7 +51,11 @@ export function svgLines(projection, context) {
 
         entities.forEach(function(way) {
             var features = svgSegmentWay(way, graph, activeID);
-            data.targets.push.apply(data.targets, features.passive);
+            if (way.tags.power || way.tags.boundary) {
+                data.nopes.push.apply(data.nopes, features.passive);
+            } else {
+                data.targets.push.apply(data.targets, features.passive);
+            }
             data.nopes.push.apply(data.nopes, features.active);
         });
 
